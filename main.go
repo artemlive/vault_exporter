@@ -37,20 +37,10 @@ var (
 		"Is this Vault node in standby.",
 		nil, nil,
 	)
-	ver = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "", "version"),
+	info = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "", "info"),
 		"Version of this Vault node.",
-		[]string{"version"}, nil,
-	)
-	clusterName = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "", "cluster_name"),
-		"Cluster name according to this Vault node.",
-		[]string{"cluster_name"}, nil,
-	)
-	clusterID = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "", "cluster_id"),
-		"Cluster ID according to this Vault node.",
-		[]string{"cluster_id"}, nil,
+		[]string{"version", "cluster_name", "cluster_id"}, nil,
 	)
 )
 
@@ -79,9 +69,7 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 	ch <- initialized
 	ch <- sealed
 	ch <- standby
-	ch <- ver
-	ch <- clusterName
-	ch <- clusterID
+	ch <- info
 }
 
 func bool2float(b bool) float64 {
@@ -116,13 +104,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 		standby, prometheus.GaugeValue, bool2float(health.Standby),
 	)
 	ch <- prometheus.MustNewConstMetric(
-		ver, prometheus.GaugeValue, 1, health.Version,
-	)
-	ch <- prometheus.MustNewConstMetric(
-		clusterName, prometheus.GaugeValue, 1, health.ClusterName,
-	)
-	ch <- prometheus.MustNewConstMetric(
-		clusterID, prometheus.GaugeValue, 1, health.ClusterID,
+		info, prometheus.GaugeValue, 1, health.Version, health.ClusterName, health.ClusterID,
 	)
 }
 

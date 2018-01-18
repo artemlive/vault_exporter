@@ -10,9 +10,7 @@ Export [Hashicorp Vault](https://github.com/hashicorp/vault) health to [Promethe
 | vault_initialized | Is the Vault initialised (according to this node). | |
 | vault_sealed | Is the Vault node sealed. | |
 | vault_standby | Is this Vault node in standby. | |
-| vault_version | Version of this Vault node. | version |
-| vault_cluster_name | Cluster name according to this Vault node. | cluster_name |
-| vault_cluster_id | Cluster ID according to this Vault node. | cluster_id |
+| vault_info | Various info about the Vault node. | version, cluster_name, cluster_id |
 
 ## Flags
 
