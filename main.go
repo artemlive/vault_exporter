@@ -134,7 +134,7 @@ func main() {
 	var (
 		listenAddress = kingpin.Flag("web.listen-address",
 			"Address to listen on for web interface and telemetry.").
-			Default(":9107").String()
+			Default(":9410").String()
 		metricsPath = kingpin.Flag("web.telemetry-path",
 			"Path under which to expose metrics.").
 			Default("/metrics").String()

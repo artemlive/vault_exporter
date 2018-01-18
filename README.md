@@ -22,7 +22,7 @@ usage: vault_exporter [<flags>]
 
 Flags:
   -h, --help              Show context-sensitive help (also try --help-long and --help-man).
-      --web.listen-address=":9107"  
+      --web.listen-address=":9410"  
                           Address to listen on for web interface and telemetry.
       --web.telemetry-path="/metrics"  
                           Path under which to expose metrics.
