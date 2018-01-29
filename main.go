@@ -51,8 +51,8 @@ type Exporter struct {
 }
 
 // NewExporter returns an initialized Exporter.
-func NewExporter() (*Exporter, error) {
-	client, err := vault_api.NewClient(vault_api.DefaultConfig())
+func NewExporter(config vault_api.Config) (*Exporter, error) {
+	client, err := vault_api.NewClient(&config)
 	if err != nil {
 		return nil, err
 	}
@@ -120,16 +120,20 @@ func main() {
 		metricsPath = kingpin.Flag("web.telemetry-path",
 			"Path under which to expose metrics.").
 			Default("/metrics").String()
+		vaultAddress = kingpin.Flag("cfg.vault-server",
+			"Vault server address").
+			Default("http://127.0.0.1:8200/").String()
 	)
-	log.AddFlags(kingpin.CommandLine)
+
 	kingpin.Version(version.Print("vault_exporter"))
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
 
 	log.Infoln("Starting vault_exporter", version.Info())
 	log.Infoln("Build context", version.BuildContext())
+	log.Infoln("Vault address", *vaultAddress)
 
-	exporter, err := NewExporter()
+	exporter, err := NewExporter(vault_api.Config{ Address: *vaultAddress})
 	if err != nil {
 		log.Fatalln(err)
 	}
